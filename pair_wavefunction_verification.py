@@ -58,16 +58,16 @@ for _ in range(200):
     for (h1,h2), v in sc.items():
         if h1==h2: maxdev_sc = max(maxdev_sc, abs(abs(v)**2 - 1.0))
         else: assert abs(v) < 1e-12, ("scalar wrong-pair nonzero", v)
-    # vector: nonzero only for h1==-h2
-    tot_pairs_sum = 0.0
+    # vector: nonzero only for h1==-h2; weight checked PER PAIR (v1.1 --
+    # the deposited v1.0 check summed the two pairs before comparing, which
+    # a compensating per-pair error would have passed)
     for (h1,h2), v in vec.items():
         if h1==-h2:
-            tot_pairs_sum += np.sum(np.abs(v)**2)   # per-pair sum_i |psi_i|^2
+            maxdev_vec_sum = max(maxdev_vec_sum, abs(np.sum(np.abs(v)**2) - 2.0))
             maxdev_trans = max(maxdev_trans, abs(np.dot(v, khat)))  # transversality psi.khat = 0
         else: assert np.all(np.abs(v) < 1e-12), ("vector wrong-pair nonzero", v)
-    maxdev_vec_sum = max(maxdev_vec_sum, abs(tot_pairs_sum/2 - 2.0))  # per pair: 2
 print(f"scalar |psi|^2 = 1 (allowed pairs): max dev over 200 dirs = {maxdev_sc:.2e}")
-print(f"vector sum_i|psi_i|^2 = 2 per allowed pair: max dev = {maxdev_vec_sum:.2e}")
+print(f"vector sum_i|psi_i|^2 = 2, checked per pair: max dev = {maxdev_vec_sum:.2e}")
 print(f"vector transversality |psi . khat| = 0: max = {maxdev_trans:.2e}")
 
 # --- Check 2: susceptibility tensor Pi_ij = sum_pairs int dOmega/4pi psi_i psi_j*
@@ -90,24 +90,22 @@ print(f"Pi_scalar total = {Pi_sc:.4f}   (expect 2)")
 F = (np.trace(Pi).real/3)/Pi_sc
 print(f"F = Pi_ii / Pi_scalar = {F:.6f}   (expect 2/3 = {2/3:.6f})")
 
-# --- Check 3: anchors and S(F)
-from mpmath import mp, asinh, sinh
-mp.dps = 50
-Lam = mp.mpf('9.7e26'); Dhad = mp.mpf('4.10e8')  # eV
-inv_lam_had = asinh(Lam/Dhad)
-print(f"\n1/lambda_had^eff = asinh(Lambda/Delta_had) = {inv_lam_had}  (record: 43.00082)")
-for Fv, name in [(mp.mpf(1),'F=1 (R0 null)'), (mp.mpf(2)/3,'F=2/3 (F3 derived)'),
-                 (mp.mpf(1)/2,'F=1/2 (R6 asserted)'), (mp.mpf(1)/3,'F=1/3 (R6 asserted)')]:
-    S = inv_lam_had*(1/Fv - 1)
-    lamG = Fv/inv_lam_had
-    print(f"{name}: S = {S:.5f}, lambda_G = {lamG:.6f}")
-print("required band: S in [47.4, 49.8], F in [0.46337, 0.47567], lambda_G in [0.010776, 0.011062]")
+# --- Check 3: what the factor does to the gap (the note's own arithmetic,
+# in neutral parameters -- v1.0 of this script carried application targets
+# from the parent programme that the note never states; removed in v1.1).
+# With A = arsinh(Lambda/Delta) fixed by the scalar channel, a channel whose
+# effective coupling is F * lambda_BCS has gap exponent A/F, i.e. the
+# suppression exponent rescales as S(F) = A * (1/F - 1).
+import math
+A = 10.0  # arsinh(Lambda/Delta) for the scalar channel, chosen round
+print("\n=== gap-exponent rescaling at fixed scalar anchor A = arsinh(Lambda/Delta) = 10 ===")
+for Fv, name in [(1.0, "F = 1   (transplant)"), (2/3, "F = 2/3 (this note)"),
+                 (1/2, "F = 1/2"), (1/3, "F = 1/3 (longitudinal average)")]:
+    print(f"{name}: S = A(1/F - 1) = {A*(1/Fv - 1):8.4f},  gap ratio exp(-S) = {math.exp(-A*(1/Fv - 1)):.3e}")
 
-# --- Check 4: J=0 acceptance -- gap-equation inversion identity (both channels share it)
-lam = 1/inv_lam_had
-print(f"\nJ=0 inversion: Delta = Lambda/sinh(1/lambda) with lambda=lambda_had^eff -> "
-      f"{Lam/sinh(inv_lam_had):.6e} eV (target Delta_had = 4.10e8 eV, definitional)")
-lam_eff = (mp.mpf(2)/3)*lam
-Dg = Lam/sinh(1/lam_eff)
-print(f"J=1 with lambda_eff = (2/3)lambda: Delta_G = {Dg:.6e} eV vs target 3.7e-13 eV "
-      f"-> log10 ratio = {float(mp.log10(Dg/mp.mpf('3.7e-13'))):.2f} dex high")
+# --- Check 4: the inversion identity both channels share (definitional):
+# Delta = Lambda / sinh(1/lambda) returns the input gap exactly.
+lam = 1/A
+Delta_check = 1.0/math.sinh(1/lam)   # in units of Lambda
+print(f"\ninversion identity: Lambda/sinh(1/lambda) with lambda = 1/A -> "
+      f"Delta/Lambda = {Delta_check:.6e} (input was exp(-A) scale, definitional)")
