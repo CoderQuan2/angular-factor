@@ -1,0 +1,148 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath, amssymb, amsthm, booktabs, geometry}
+\geometry{margin=1in}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+
+\title{The Angular Factor Between the Scalar and Vector Pairing Channels of a Single Contact Interaction}
+\author{T. Abram}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+A single attractive contact interaction for a massless Dirac fermion pairs in both a scalar ($0^+$) and a vector ($1^-$) channel, and its Fierz decomposition assigns the two channels the same coefficient. It is therefore tempting to write the vector channel's gap equation by transplanting the scalar one, with the coupling relabelled and nothing else changed. This note computes the quantity the transplant assumes away: the ratio $F$ of the two channels' pair susceptibilities at a common Fermi surface. Three values suggest themselves \emph{a priori} --- $F = 1$ (the transplant), $F = 1/3$ (the longitudinal angular average $\langle \cos^2\theta \rangle$), and the value the computation gives. The vector pair wavefunction is everywhere transverse to the relative momentum, its total weight per pair is twice the scalar's, and that weight is distributed equally over the channel's three components. The susceptibility per component is therefore $4/3$ against the scalar's $2$, and
+\[
+F \;=\; \frac{2}{3} \qquad \text{exactly,}
+\]
+so the vector channel's effective coupling is $\lambda_{\mathrm{eff}}^{(1^-)} = \tfrac{2}{3}\,\lambda_{\mathrm{BCS}}$. The scalar channel, computed by the same machinery as a control, returns $F_{0^+} \equiv 1$ identically, and a Monte Carlo evaluation of the susceptibility tensor reproduces $F = 0.666667$. The factor is a property of the pair states, not of the interaction vertex, which is why no Fierz analysis of the vertex can contain it.
+\end{abstract}
+
+\section{The question}
+
+Consider a massless Dirac fermion $\chi$ with the attractive contact interaction $g\,(\bar\chi\chi)^2$. The interaction pairs $\chi$ in more than one channel. Writing $\phi_J = \chi^T C \Gamma^J \chi$ for the pair operator of channel $J$ --- $\Gamma^{0^+} = i\gamma_5$ for the scalar channel and $\Gamma^{1^-}_i = i\gamma_5\gamma^i$ for the vector channel --- the Fierz identity decomposes the interaction into channel operators with coefficients $c_{JJ}$, and for this interaction the two coefficients in question are equal: $c_{0^+0^+} = c_{1^-1^-} = +1/4$.
+
+The scalar channel's gap equation is standard. The question is what changes for the vector channel. If the two channels' pair susceptibilities at the Fermi surface were equal, the vector gap equation would be the scalar one with the coupling relabelled, and the relative suppression of the two gaps would be governed by the vertex coefficients alone --- equal here, so the gaps would coincide. That equality of susceptibilities is an assumption, and it is the assumption this note tests. The pair susceptibility is a Fermi-surface integral over the channel's pair wavefunction, and the two wavefunctions are not alike: the scalar's is a constant, the vector's is a transverse vector. The integral must be computed, not presumed.
+
+\section{The channel eigenvalue problem}
+
+Decouple the interaction in channel $J$ by a Hubbard--Stratonovich field $\Delta_J$. The linearised self-consistency condition at the pairing instability is the eigenvalue problem
+\begin{equation}
+1 \;=\; G_J \, \Pi_J,
+\end{equation}
+where $G_J$ is the vertex factor ($G_J = c_{JJ}\, g / L$ in the conventions used here, with $L$ a channel-common reduction factor) and $\Pi_J$ is the pair susceptibility of the operator $\phi_J$: the linear response of $\langle \phi_J \rangle$ to its own pairing field. On a shared, isotropic Fermi surface the susceptibility factorises into a radial integral, common to both channels, and an angular weight carried by the pair wavefunction:
+\begin{equation}
+\Pi_J \;=\; \left[ \int_{-\Lambda}^{\Lambda} \frac{d\xi}{2\sqrt{\xi^2 + \Delta^2}} \right] \times W_J,
+\qquad
+W_J \;\equiv\; \sum_{\text{helicity pairs}} \int \frac{d\Omega_{\hat k}}{4\pi}\; \big| \psi_J(\hat k) \big|^2,
+\end{equation}
+where the radial integral is $\operatorname{arsinh}(\Lambda/\Delta)$ at zero temperature, $\Lambda$ is the cutoff, and the \emph{pair wavefunction} $\psi_J(\hat k) \equiv u^T(\mathbf{k})\, C \Gamma^J\, u(-\mathbf{k})$ is the amplitude for $\phi_J$ to create a zero-momentum pair at Fermi-surface direction $\hat k$ from helicity spinors $u$ in the massless limit, normalised by $u^\dagger u = 1$. For the vector channel $W_J$ is a tensor over the channel components $i = 1,2,3$. The effective coupling of channel $J$ is $\lambda_{\mathrm{eff}}^{(J)} = G_J \times (\text{logarithmic coefficient of } \Pi_J)$, and since the radial factor and the non-$c_{JJ}$ parts of $G_J$ are channel-common while $c_{0^+0^+} = c_{1^-1^-}$, the ratio of the channels' effective couplings to the scalar channel's is exactly the ratio of angular weights:
+\begin{equation}
+F_J \;\equiv\; \frac{\lambda_{\mathrm{eff}}^{(J)}}{\lambda_{\mathrm{eff}}^{(0^+)}} \;=\; \frac{W_J}{W_{0^+}}.
+\end{equation}
+Everything therefore turns on computing the pair wavefunctions.
+
+A remark on method: applied to the scalar channel, this formalism must and does return the standard gap equation $1 = \lambda_{\mathrm{BCS}} \operatorname{arsinh}(\Lambda/\Delta)$ with $\lambda_{\mathrm{BCS}} \equiv G_{0^+} N(0)$, where $N(0)$ is the density of states at the Fermi surface. That control is computed in Section 3, not imposed.
+
+\section{The pair wavefunctions}
+
+Work in the Dirac representation, with charge conjugation matrix $C = i\gamma^2\gamma^0$. The matrices $M_J \equiv C\Gamma^J$ entering $\psi_J = u^T M_J u'$ are
+\begin{equation}
+M_{0^+} \;=\; \begin{pmatrix} \sigma^2 & 0 \\ 0 & \sigma^2 \end{pmatrix},
+\qquad
+M_{1^-,i} \;=\; \begin{pmatrix} 0 & \sigma^2 \sigma^i \\ -\sigma^2 \sigma^i & 0 \end{pmatrix}.
+\end{equation}
+Massless helicity spinors are $u(\mathbf{k}, h) = (\chi_h,\, h\chi_h)/\sqrt{2}$ with $\boldsymbol{\sigma}\cdot\hat k\, \chi_h = h\, \chi_h$, $h = \pm 1$; write $u' \equiv u(-\mathbf{k}, h')$.
+
+\subsection{The scalar channel}
+
+The overlap is
+\begin{equation}
+\psi_{0^+} \;=\; \tfrac{1}{2}\big(1 + h h'\big)\; \chi_h^{T} \sigma^2 \chi_{h'} .
+\end{equation}
+The scalar operator therefore creates only \emph{equal-helicity} pairs ($h' = h$), and for those pairs $\big|\chi_h^T \sigma^2 \chi_{h'}\big| = 1$, the singlet overlap of a helicity spinor with its time-reversed partner. Hence
+\begin{equation}
+\big| \psi_{0^+}(\hat k) \big|^2 \;=\; 1 \quad \text{for both created pairs, at every } \hat k,
+\end{equation}
+and the angular weight is a pure number:
+\begin{equation}
+W_{0^+} \;=\; 2.
+\end{equation}
+This $2$ is the familiar factor of two spin-pairing channels in the scalar susceptibility; it is computed here, in the same conventions as the vector channel below, which is what licenses the ratio in equation (3).
+
+\subsection{The vector channel}
+
+The overlap is
+\begin{equation}
+\psi_i \;=\; \tfrac{1}{2}\big(h' - h\big)\; \chi_h^{T} \sigma^2 \sigma^i \chi_{h'} ,
+\end{equation}
+so the vector operator creates only \emph{opposite-helicity} pairs ($h' = -h$). Evaluate at $\hat k = \hat z$, where $\chi_+ = (1,0)$ and $\chi_- = (0,1)$: the wavefunction has two nonzero components of unit magnitude and a vanishing third,
+\begin{equation}
+\psi(\hat z) \;\propto\; (\text{phase},\ \text{phase},\ 0),
+\qquad
+\sum_{i=1}^{3} \big| \psi_i(\hat z) \big|^2 \;=\; 2,
+\qquad
+\psi(\hat z) \cdot \hat z \;=\; 0.
+\end{equation}
+Two covariance arguments promote this point evaluation to the whole Fermi surface. The scalar $\psi(\hat k) \cdot \hat k$ is invariant under simultaneous rotation of the wavefunction and the direction, and depends only on the pair's helicity labels; it is therefore constant on the sphere, and by the evaluation above the constant is zero. Likewise $\sum_i |\psi_i(\hat k)|^2$ is a rotational scalar of the pair state, hence constant, with the value just computed. Therefore, for every direction and every created pair,
+\begin{equation}
+\psi(\hat k) \;\perp\; \hat k,
+\qquad
+\sum_{i=1}^{3} \big| \psi_i(\hat k) \big|^2 \;=\; 2.
+\end{equation}
+The physical content is that a collinear massless pair carries its unit of angular momentum in the transverse, photon-like components: the longitudinal component along $\hat k$ has no helicity pair to attach to. This transversality --- not any angular average --- is what decides the factor.
+
+\section{The susceptibility tensor and the factor}
+
+The vector channel's angular weight is the tensor
+\begin{equation}
+W_{1^-,ij} \;=\; \sum_{\text{pairs}} \int \frac{d\Omega_{\hat k}}{4\pi}\; \psi_i(\hat k)\, \psi_j^*(\hat k).
+\end{equation}
+By rotational invariance $W_{1^-,ij} \propto \delta_{ij}$ (Schur's lemma), and its trace is fixed by the constant total weight: two created pairs, each contributing $\sum_i |\psi_i|^2 = 2$, give $\operatorname{tr} W_{1^-} = 4$. Hence each of the three components carries $4/3$:
+\begin{equation}
+W_{1^-,ij} \;=\; \tfrac{4}{3}\, \delta_{ij}.
+\end{equation}
+
+\begin{theorem}
+Under the stated premises --- a single contact interaction whose Fierz coefficients in the scalar and vector channels are equal, massless fermions, a common isotropic Fermi surface --- the vector channel's pair susceptibility per component is $4/3$ against the scalar channel's $2$, and the ratio of effective couplings is
+\[
+F \;=\; \frac{W_{1^-,ii}}{W_{0^+}} \;=\; \frac{4/3}{2} \;=\; \frac{2}{3},
+\qquad \lambda_{\mathrm{eff}}^{(1^-)} \;=\; \tfrac{2}{3}\, \lambda_{\mathrm{BCS}}.
+\]
+The three vector components are degenerate eigenmodes of the gap equation with this same eigenvalue.
+\end{theorem}
+
+\paragraph{Why the value is neither $1$ nor $1/3$.} The value $1$ is the transplant: it sets the two angular weights equal, which the wavefunctions contradict --- the scalar's total pair-creation weight is $2$ in a single component, the vector's is $4$ spread over three. The value $1/3$ is the longitudinal average $\langle \cos^2\theta \rangle$, which would arise if the pair wavefunction were $\psi \propto \hat k$ and the condensate a single direction $\hat d$ with gap $\propto \hat k \cdot \hat d$. Neither holds: the wavefunction is transverse, and the gap equation's eigenvalue is the per-component susceptibility, not a directional average. The arithmetic is a trace split --- multiplicity dilutes the vector weight across three components while transversality concentrates its total above the scalar's --- and the quotient of the two effects is $2/3$.
+
+\paragraph{Leading-logarithm status.} With a condensate $\Delta_i = \Delta\, \hat d_i$, the quasiparticle gap on the Fermi surface is direction-dependent, $\Delta(\hat k) = \Delta\, |\psi(\hat k) \cdot \hat d|$, and the full zero-temperature gap equation is
+\begin{equation}
+1 \;=\; \lambda_{\mathrm{BCS}} \cdot \tfrac{1}{2} \sum_{\text{pairs}} \int \frac{d\Omega_{\hat k}}{4\pi}\; \big| \psi(\hat k) \cdot \hat d \big|^2 \, \operatorname{arsinh}\!\left( \frac{\Lambda}{\Delta\, |\psi(\hat k) \cdot \hat d|} \right).
+\end{equation}
+At leading logarithm, $\operatorname{arsinh}(\Lambda/(\Delta|\psi\cdot\hat d|)) = \ln(2\Lambda/\Delta) - \ln|\psi\cdot\hat d| + \cdots$, the angular weight integrates to $\tfrac{1}{2} \cdot \tfrac{4}{3} = \tfrac{2}{3}$, and the equation reduces to $1 = \tfrac{2}{3} \lambda_{\mathrm{BCS}} \operatorname{arsinh}(\Lambda/\Delta)$: the eigenvalue of the theorem governs the exponent. The anisotropic remainder is an additive constant of order unity inside the logarithm; it shifts the prefactor of $\Delta$, not the factor $F$.
+
+\section{Numerical verification}
+
+The analytic statements of Section 3 were checked by direct evaluation of the helicity-spinor overlaps over 200 random Fermi-surface directions: the scalar overlap satisfies $|\psi_{0^+}|^2 = 1$ with deviation at most $9 \times 10^{-16}$; the vector total weight satisfies $\sum_i |\psi_i|^2 = 2$ with deviation at most $2 \times 10^{-15}$; transversality satisfies $|\psi \cdot \hat k| \le 6 \times 10^{-16}$; all overlaps of the wrong helicity pairing are below $10^{-12}$, confirming the selection rules. A Monte Carlo evaluation of the susceptibility tensor over $4 \times 10^5$ points on the sphere gives
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Quantity & Computed & Expected \\
+\midrule
+$W_{1^-,ij}$ diagonal & $1.3334,\ 1.3340,\ 1.3326$ & $4/3$ each \\
+$W_{1^-,ij}$ off-diagonal & $\le 1.3 \times 10^{-3}$ & $0$ \\
+$\operatorname{tr} W_{1^-}$ & $4.0000$ & $4$ \\
+$W_{0^+}$ total & $2.0000$ & $2$ \\
+$F$ & $0.666667$ & $2/3$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+The control is the scalar channel: the same code and the same conventions return its angular weight as exactly the factor appearing in its known gap equation, so the ratio $F$ is a comparison within one formalism, not between two.
+
+\section{Discussion}
+
+\paragraph{The factor is not in the vertex.} A Fierz identity is an algebraic identity among local operators: tree-level, with no Fermi surface and no states. It answers the question \emph{with what coefficient does the operator $\phi_J \bar\phi_J$ appear in the interaction}. The angular weight answers a different question: \emph{with what strength does $\phi_J$ create and reabsorb a pair on the Fermi surface} --- a one-loop matrix element between physical pair states, depending on the spinor overlaps computed above. The gap equation's eigenvalue is the product of the two, and an exact computation of the first factor constrains the second not at all. For the scalar channel the two happen to be conflated harmlessly, because its pair wavefunction is a constant and its angular integral is trivial; for the vector channel they differ, by exactly $2/3$. Any argument of the form ``the Fierz coefficients are equal, therefore the channels pair equally'' is committing this conflation.
+
+\paragraph{Scope.} The factor is independent of the coupling's value, of the cutoff, and of the radial kernel: it is a ratio of Fermi-surface angular integrals of fixed spinor overlaps. It requires the premises stated in the theorem --- equal channel coefficients, masslessness (a fermion mass comparable to the Fermi energy would correct the overlaps at order $m^2c^4/\epsilon_F^2$), and a common Fermi surface. Within those premises it is exact at leading logarithm, with the anisotropic correction confined to the gap's prefactor as shown above. It arose in the pairing analysis of a five-dimensional substrate model, where the vector channel's coupling had been carried for some time at the transplanted value; the correction computed here reduced that channel's predicted coupling by a third, and the corrected value is the one any further use of the channel must start from.
+
+\end{document}
